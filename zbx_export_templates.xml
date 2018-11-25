@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.0</version>
-    <date>2018-11-25T06:03:32Z</date>
+    <date>2018-11-25T08:21:13Z</date>
     <groups>
         <group>
             <name>cisco</name>
@@ -677,7 +677,13 @@ email : morteza.hanasavi@gmail.com</description>
                     </applications>
                     <valuemap/>
                     <logtimefmt/>
-                    <preprocessing/>
+                    <preprocessing>
+                        <step>
+                            <type>5</type>
+                            <params>Version (.+), RELEASE
+\1</params>
+                        </step>
+                    </preprocessing>
                     <jmx_endpoint/>
                     <timeout>3s</timeout>
                     <url/>
@@ -736,7 +742,12 @@ email : morteza.hanasavi@gmail.com</description>
                     </applications>
                     <valuemap/>
                     <logtimefmt/>
-                    <preprocessing/>
+                    <preprocessing>
+                        <step>
+                            <type>1</type>
+                            <params>0.01</params>
+                        </step>
+                    </preprocessing>
                     <jmx_endpoint/>
                     <timeout>3s</timeout>
                     <url/>
@@ -1637,7 +1648,12 @@ and at other times as indicated by the value of ifCounterDiscontinuityTime.</des
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
-                            <preprocessing/>
+                            <preprocessing>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
                             <jmx_endpoint/>
                             <timeout>3s</timeout>
                             <url/>
@@ -1698,7 +1714,12 @@ For packet-oriented interfaces, the number of inbound packets that contained err
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
-                            <preprocessing/>
+                            <preprocessing>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
                             <jmx_endpoint/>
                             <timeout>3s</timeout>
                             <url/>
@@ -1759,7 +1780,16 @@ The total number of octets received on the interface,including framing character
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
-                            <preprocessing/>
+                            <preprocessing>
+                                <step>
+                                    <type>1</type>
+                                    <params>8</params>
+                                </step>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
                             <jmx_endpoint/>
                             <timeout>3s</timeout>
                             <url/>
@@ -1824,7 +1854,12 @@ and at other times as indicated by the value of ifCounterDiscontinuityTime.</des
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
-                            <preprocessing/>
+                            <preprocessing>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
                             <jmx_endpoint/>
                             <timeout>3s</timeout>
                             <url/>
@@ -1885,7 +1920,12 @@ For packet-oriented interfaces, the number of outbound packets that contained er
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
-                            <preprocessing/>
+                            <preprocessing>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
                             <jmx_endpoint/>
                             <timeout>3s</timeout>
                             <url/>
@@ -1946,7 +1986,16 @@ The total number of octets transmitted out of the interface, including framing c
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
-                            <preprocessing/>
+                            <preprocessing>
+                                <step>
+                                    <type>1</type>
+                                    <params>8</params>
+                                </step>
+                                <step>
+                                    <type>10</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
                             <jmx_endpoint/>
                             <timeout>3s</timeout>
                             <url/>
@@ -2007,7 +2056,12 @@ An estimate of the interface's current bandwidth in units of 1,000,000 bits per 
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
-                            <preprocessing/>
+                            <preprocessing>
+                                <step>
+                                    <type>1</type>
+                                    <params>1000000</params>
+                                </step>
+                            </preprocessing>
                             <jmx_endpoint/>
                             <timeout>3s</timeout>
                             <url/>
@@ -2191,7 +2245,13 @@ and&#13;
 This Ethernet connection has transitioned down from its known maximum speed. This might be a sign of autonegotiation issues. Ack to close.</description>
                             <type>0</type>
                             <manual_close>1</manual_close>
-                            <dependencies/>
+                            <dependencies>
+                                <dependency>
+                                    <name>Interface {#IFNAME}({#IFALIAS}): Link down</name>
+                                    <expression>{$IFCONTROL:&quot;{#IFNAME}&quot;}=1 and ({Cisco Device SnmpV3:net.if.status[ifOperStatus.{#SNMPINDEX}].last()}=2 and {Cisco Device SnmpV3:net.if.status[ifOperStatus.{#SNMPINDEX}].diff()}=1)</expression>
+                                    <recovery_expression>{Cisco Device SnmpV3:net.if.status[ifOperStatus.{#SNMPINDEX}].last()}&lt;&gt;2</recovery_expression>
+                                </dependency>
+                            </dependencies>
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
@@ -2210,7 +2270,13 @@ This Ethernet connection has transitioned down from its known maximum speed. Thi
                             <description>Last value: {ITEM.LASTVALUE1}.</description>
                             <type>0</type>
                             <manual_close>1</manual_close>
-                            <dependencies/>
+                            <dependencies>
+                                <dependency>
+                                    <name>Interface {#IFNAME}({#IFALIAS}): Link down</name>
+                                    <expression>{$IFCONTROL:&quot;{#IFNAME}&quot;}=1 and ({Cisco Device SnmpV3:net.if.status[ifOperStatus.{#SNMPINDEX}].last()}=2 and {Cisco Device SnmpV3:net.if.status[ifOperStatus.{#SNMPINDEX}].diff()}=1)</expression>
+                                    <recovery_expression>{Cisco Device SnmpV3:net.if.status[ifOperStatus.{#SNMPINDEX}].last()}&lt;&gt;2</recovery_expression>
+                                </dependency>
+                            </dependencies>
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
@@ -2229,7 +2295,13 @@ and {Cisco Device SnmpV3:net.if.out.errors[ifOutErrors.{#SNMPINDEX}].avg(5m)}&lt
 Recovers when below 80% of {$IF_ERRORS_WARN:&quot;{#IFNAME}&quot;} threshold</description>
                             <type>0</type>
                             <manual_close>1</manual_close>
-                            <dependencies/>
+                            <dependencies>
+                                <dependency>
+                                    <name>Interface {#IFNAME}({#IFALIAS}): Link down</name>
+                                    <expression>{$IFCONTROL:&quot;{#IFNAME}&quot;}=1 and ({Cisco Device SnmpV3:net.if.status[ifOperStatus.{#SNMPINDEX}].last()}=2 and {Cisco Device SnmpV3:net.if.status[ifOperStatus.{#SNMPINDEX}].diff()}=1)</expression>
+                                    <recovery_expression>{Cisco Device SnmpV3:net.if.status[ifOperStatus.{#SNMPINDEX}].last()}&lt;&gt;2</recovery_expression>
+                                </dependency>
+                            </dependencies>
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
@@ -2961,7 +3033,13 @@ Device serial number has changed. Ack to close</description>
             <description>Last value: {ITEM.LASTVALUE1}.</description>
             <type>0</type>
             <manual_close>0</manual_close>
-            <dependencies/>
+            <dependencies>
+                <dependency>
+                    <name>Unavailable by ICMP ping</name>
+                    <expression>{Cisco Device SnmpV3:icmpping.max(#3)}=0</expression>
+                    <recovery_expression/>
+                </dependency>
+            </dependencies>
             <tags/>
         </trigger>
         <trigger>
@@ -2977,7 +3055,18 @@ Device serial number has changed. Ack to close</description>
             <description>Last value: {ITEM.LASTVALUE1}.</description>
             <type>0</type>
             <manual_close>0</manual_close>
-            <dependencies/>
+            <dependencies>
+                <dependency>
+                    <name>High ICMP ping loss</name>
+                    <expression>{Cisco Device SnmpV3:icmppingloss.min(5m)}&gt;{$ICMP_LOSS_WARN} and {Cisco Device SnmpV3:icmppingloss.min(5m)}&lt;100</expression>
+                    <recovery_expression/>
+                </dependency>
+                <dependency>
+                    <name>Unavailable by ICMP ping</name>
+                    <expression>{Cisco Device SnmpV3:icmpping.max(#3)}=0</expression>
+                    <recovery_expression/>
+                </dependency>
+            </dependencies>
             <tags/>
         </trigger>
         <trigger>
@@ -2994,7 +3083,13 @@ Device serial number has changed. Ack to close</description>
 SNMP is not available for polling. Please check device connectivity and SNMP settings.</description>
             <type>0</type>
             <manual_close>0</manual_close>
-            <dependencies/>
+            <dependencies>
+                <dependency>
+                    <name>Unavailable by ICMP ping</name>
+                    <expression>{Cisco Device SnmpV3:icmpping.max(#3)}=0</expression>
+                    <recovery_expression/>
+                </dependency>
+            </dependencies>
             <tags/>
         </trigger>
         <trigger>
@@ -3028,7 +3123,13 @@ Last three attempts returned timeout.  Please check device connectivity.</descri
 The device uptime is less than 10 minutes</description>
             <type>0</type>
             <manual_close>0</manual_close>
-            <dependencies/>
+            <dependencies>
+                <dependency>
+                    <name>No SNMP data collection</name>
+                    <expression>{Cisco Device SnmpV3:zabbix[host,snmp,available].max({$SNMP_TIMEOUT})}=0</expression>
+                    <recovery_expression/>
+                </dependency>
+            </dependencies>
             <tags/>
         </trigger>
     </triggers>
